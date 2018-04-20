@@ -12,7 +12,6 @@ import re
 def add_info(report):
 	attach_related_packages(report, ['dnsmasq', 'dnsmasq-base', 'libvirt-bin', 'apparmor', 'libapparmor1', 'apparmor-utils', 'auditd', 'libaudit0'])
 	attach_mac_events(report)
-	attach_upstart_overrides(report, "lxc")
 	command_output(['ls', '-ld', '/bin/sh'])
 	attach_conffiles(report, 'lxc')
 	report["lxcsyslog"] = recent_syslog(re.compile("lxc"))

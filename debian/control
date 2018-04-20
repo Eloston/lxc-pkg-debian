@@ -2,8 +2,7 @@ Source: lxc
 Section: admin
 Priority: optional
 Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-Build-Depends: bash-completion,
-               debhelper (>= 10),
+Build-Depends: debhelper (>= 10),
                dh-apparmor,
                docbook2x,
                dpkg-dev (>= 1.16.1~) | hardening-wrapper,
@@ -59,8 +58,8 @@ Depends: adduser,
          ${shlibs:Depends}
 Recommends: libpam-cgfs
 Suggests: btrfs-tools, lvm2, lxc-templates, lxctl
-Replaces: lxc1 (<< 2.1.1-0ubuntu2~)
-Breaks: lxc1 (<< 2.1.1-0ubuntu2~)
+Replaces: lxc1 (<< 1:2.2)
+Breaks: lxc1 (<< 1:2.2)
 Description: Linux Containers userspace tools
  Containers are insulated areas inside a system, which have their own namespace
  for filesystem, network, PID, IPC, CPU and memory allocation and which can be
@@ -79,12 +78,12 @@ Depends: liblxc1 (= ${binary:Version}),
          ${shlibs:Depends}
 Conflicts: lxc-common
 Replaces: lxc-common,
-          lxc-templates (<< 3.0.0~beta1-0ubuntu1~),
-          lxc-utils (<< 3.0.0~beta2-0ubuntu2~),
-          lxc1 (<< 3.0.0~beta2-0ubuntu2~)
-Breaks: lxc-templates (<< 3.0.0~beta1-0ubuntu1~),
-        lxc-utils (<< 3.0.0~beta2-0ubuntu2~),
-        lxc1 (<< 3.0.0~beta2-0ubuntu2~)
+          lxc-templates (<< 1:2.2),
+          lxc-utils (<< 1:2.2),
+          lxc1 (<< 1:2.2)
+Breaks: lxc-templates (<< 1:2.2),
+        lxc-utils (<< 1:2.2),
+        lxc1 (<< 1:2.2)
 Provides: lxc-common
 Description: Linux Containers userspace tools (common tools)
  Containers are insulated areas inside a system, which have their own namespace
@@ -99,8 +98,8 @@ Package: liblxc-dev
 Section: libdevel
 Architecture: linux-any
 Depends: liblxc1 (= ${binary:Version}), ${misc:Depends}
-Replaces: lxc-dev (<< 2.1.1-0ubuntu2~)
-Breaks: lxc-dev (<< 2.1.1-0ubuntu2~)
+Replaces: lxc-dev (<< 1:2.2)
+Breaks: lxc-dev (<< 1:2.2)
 Description: Linux Containers userspace tools (development)
  Containers are insulated areas inside a system, which have their own namespace
  for filesystem, network, PID, IPC, CPU and memory allocation and which can be

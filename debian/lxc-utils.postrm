@@ -28,6 +28,17 @@ case "$1" in
             # Try to restart a potential system wide dnsmasq
             invoke-rc.d dnsmasq restart 2>/dev/null || true
         fi
+
+        if getent passwd lxc-dnsmasq >/dev/null; then
+            deluser --quiet \
+            --system \
+            lxc-dnsmasq
+        fi
+
+        if getent group lxc-dnsmasq >/dev/null; then
+            delgroup --quiet --system lxc-dnsmasq
+        fi
+
     ;;
     purge|upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
     ;;

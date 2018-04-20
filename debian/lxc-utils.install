@@ -7,7 +7,6 @@ usr/bin
 usr/lib/*/lxc/lxc-containers
 usr/lib/*/lxc/lxc-net
 usr/share/apport
-usr/share/bash-completion
 usr/share/lxc/lxc.functions
 usr/share/man
 var/cache/lxc

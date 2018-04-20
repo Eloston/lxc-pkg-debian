@@ -3,7 +3,7 @@ export DEB_BUILD_HARDENING = 1
 export DEB_BUILD_MAINT_OPTIONS = hardening=+all
 include /usr/share/dpkg/default.mk
 
-DEB_DH_INSTALLINIT_ARGS = --upstart-only
+DEB_DH_INSTALLINIT_ARGS = --systemd-only
 
 SHELL := sh -e
 
@@ -17,7 +17,7 @@ override_dh_auto_configure:
 		--libexecdir=\$${prefix}/lib/$(DEB_HOST_MULTIARCH) \
 		--with-rootfs-path=\$${prefix}/lib/$(DEB_HOST_MULTIARCH)/lxc \
 		$(shell dpkg-buildflags --export=configure) \
-		--enable-doc --disable-rpath --with-distro=ubuntu --enable-pam
+		--enable-doc --disable-rpath --with-distro=debian --enable-pam
 
 override_dh_install:
 	if [ -x /usr/bin/dh_apparmor ]; then \
@@ -42,15 +42,9 @@ override_dh_install:
 	# move the examples
 	mv debian/tmp/usr/share/doc/lxc debian/tmp/usr/share/doc/liblxc-common
 
-	# move the bash completion profile
-	mkdir -p debian/tmp/usr/share/bash-completion/completions
 	if [ -f debian/tmp/etc/bash_completion.d/lxc ]; then \
-		mv debian/tmp/etc/bash_completion.d/lxc debian/tmp/usr/share/bash-completion/completions; \
+		rm -r debian/tmp/etc/bash_completion.d; \
 	fi
-	mv debian/tmp/usr/share/bash-completion/completions/lxc debian/tmp/usr/share/bash-completion/completions/lxc-utils
-	grep complete debian/tmp/usr/share/bash-completion/completions/lxc-utils | sed "s/.* //g" | while read cmd; do \
-		ln -s lxc-utils debian/tmp/usr/share/bash-completion/completions/$${cmd}; \
-	done
 
 	dh_install --fail-missing
 
@@ -65,16 +59,9 @@ override_dh_builddeb:
 	dh_builddeb
 
 override_dh_installinit:
-ifeq (,$(findstring $(DEB_DISTRIBUTION), trusty xenial))
 	# Disable upstart integration on artful+
 	cp debian/lxc-utils.maintscript.in debian/lxc-utils.maintscript
 	rm -f debian/lxc-utils/etc/init/*.conf
-else
-	cp debian/lxc-utils/etc/init/lxc.conf debian/lxc-utils.upstart
-	cp debian/lxc-utils/etc/init/lxc-instance.conf debian/lxc-utils.lxc-instance.upstart
-	cp debian/lxc-utils/etc/init/lxc-net.conf debian/lxc-utils.lxc-net.upstart
-	dh_installinit --no-start --no-restart-on-upgrade --name=lxc-instance
-endif
 	dh_installinit --no-restart-on-upgrade --name=lxc
 	dh_installinit --no-restart-on-upgrade --name=lxc-net
 
